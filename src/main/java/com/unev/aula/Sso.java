@@ -19,7 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
  * caducado y que no se haya usado antes. Esta misma lógica (crear) vive en SIGE en AulaSso.
  */
 public final class Sso {
-    public static final int TTL_SEGUNDOS = 60;
+    public static final int TTL_SEGUNDOS = 180;
     private static final int MAX_FUTURO_SEGUNDOS = 300;
     private static final SecureRandom AZAR = new SecureRandom();
 

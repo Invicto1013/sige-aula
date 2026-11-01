@@ -20,7 +20,7 @@ class SsoTest {
     @Test void vectorFijoCompatibleConSige() {
         // El mismo vector se prueba en SIGE (AulaSsoTest): si cambia el formato, fallan los dos.
         String t = Sso.crear(SECRETO, 7, "ESTUDIANTE", "Luis Gómez", T0, "jti-fijo");
-        assertEquals("v1.aWQ9NyZyb2w9RVNUVURJQU5URSZub21icmU9THVpcytHJUMzJUIzbWV6JmV4cD0xODAwMDAwMDYwJmp0aT1qdGktZmlqbw.A1-ctKVpcH1vmllhKoPtEmqW_HWjRSRyPI13GP7ezz0", t);
+        assertEquals("v1.aWQ9NyZyb2w9RVNUVURJQU5URSZub21icmU9THVpcytHJUMzJUIzbWV6JmV4cD0xODAwMDAwMTgwJmp0aT1qdGktZmlqbw.x_x_H3NLjukIbrMM_Qq1Rotuy0ZMOyWU4VsS8drUaHI", t);
     }
 
     @Test void firmaAlteradaSeRechaza() {
