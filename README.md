@@ -3,7 +3,7 @@
 Subsistema del Sistema de Gestión Escolar (SIGE). Permite a los profesores publicar clases y tareas, y a los estudiantes entregarlas.
 Aplicación independiente (Java 21, sin frameworks, servidor `com.sun.net.httpserver`) que comparte con SIGE la base de datos y el inicio de sesión.
 
-- Despliegue: [GUIA_KOYEB.md](GUIA_KOYEB.md)
+- Despliegue: [GUIA_NORTHFLANK.md](GUIA_NORTHFLANK.md)
 - Esquema: [sql/aula_inicial.sql](sql/aula_inicial.sql) y [sql/aula_v2.sql](sql/aula_v2.sql)
 - Pruebas: `mvn clean verify` (JUnit 5)
 
@@ -16,7 +16,7 @@ Aplicación independiente (Java 21, sin frameworks, servidor `com.sun.net.httpse
 
 ## Arquitectura
 ```
-Navegador ──► SIGE (Render) ──302 + token HMAC (60 s)──► Aula (Koyeb) ──► MySQL (Aiven)
+Navegador ──► SIGE (Render) ──303 + token HMAC (60 s)──► Aula (Northflank) ──► MySQL (Aiven)
                     └────────────── misma base de datos ──────────────────┘
 ```
 - `Sso`: crea y verifica el token (HMAC-SHA256, caduca en 60 s, un solo uso).
