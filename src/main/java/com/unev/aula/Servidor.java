@@ -166,7 +166,7 @@ public final class Servidor {
         if (s == null) { enviar(x, 401, "text/html; charset=utf-8", Html.pagina("Aula", cfg.urlSige(), null, "", Html.sinSesion(cfg.urlSige())), "no-store"); return; }
         Usuario u = de(s);
         try {
-            LocalDate hoy = LocalDate.now();
+            LocalDate hoy = LocalDate.now(cfg.zona());
             var secciones = dao.secciones(u);
             var todas = dao.publicaciones(u);
             FiltroAula filtro = FiltroAula.desde(k -> consulta(x, k), u.esProfesor());

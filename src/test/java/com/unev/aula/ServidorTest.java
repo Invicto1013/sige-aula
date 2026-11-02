@@ -67,7 +67,7 @@ class ServidorTest {
         @Override public void eliminarAnuncio(int p, int a) { llamadas.add("quitar-anuncio:" + a); }
     }
 
-    static Config cfg() { return new Config(0, "jdbc:x", "", "", SECRETO, "https://sige.example", false, 2, 1024 * 1024, 4 * 1024 * 1024); }
+    static Config cfg() { return new Config(0, "jdbc:x", "", "", SECRETO, "https://sige.example", false, 2, 1024 * 1024, 4 * 1024 * 1024, java.time.ZoneId.of("America/Santo_Domingo")); }
 
     record R(int codigo, String cuerpo, HttpResponse<String> r) { String h(String n) { return r.headers().firstValue(n).orElse(""); } }
 

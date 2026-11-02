@@ -26,4 +26,4 @@ Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (
 
 ## Variables de entorno
 `AULA_DB_URL`, `AULA_DB_USER`, `AULA_DB_PASSWORD`, `AULA_SSO_SECRET` (32+), `AULA_SIGE_URL`, `PORT`,
-`AULA_SECURE_COOKIE` (por defecto `true`), `AULA_MAX_UPLOAD_MB` (10), `AULA_MAX_REQUEST_MB` (25), `AULA_DB_POOL_SIZE` (4).
+`AULA_SECURE_COOKIE` (por defecto `true`), `AULA_MAX_UPLOAD_MB` (10), `AULA_MAX_REQUEST_MB` (25), `AULA_DB_POOL_SIZE` (4), `AULA_ZONA` (zona horaria para mostrar fechas y contar el día límite; por defecto `America/Santo_Domingo`).

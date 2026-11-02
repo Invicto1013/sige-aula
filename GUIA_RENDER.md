@@ -54,6 +54,7 @@ $b = New-Object byte[] 48; [Security.Cryptography.RandomNumberGenerator]::Create
 | `AULA_SIGE_URL` | `https://sistema-de-gestion-escolar-con-java.onrender.com` |
 | `AULA_MAX_UPLOAD_MB` | `10` (opcional) |
 | `AULA_MAX_REQUEST_MB` | `25` (opcional) |
+| `AULA_ZONA` | `America/Santo_Domingo` (opcional; ya es el valor por defecto) |
 
 5. **Create Web Service** y espera el build (varios minutos). Copia la URL (`https://sige-aula-xxxx.onrender.com`) y abre `/health` (debe decir `ok`; con `?db=1` prueba MySQL).
 

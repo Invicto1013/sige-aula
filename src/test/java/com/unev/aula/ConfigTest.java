@@ -55,4 +55,24 @@ class ConfigTest {
         m.put("PORT", "abc");
         assertEquals(8080, Config.desdeEntorno(m).puerto());
     }
+
+    @Test void zonaPorDefectoEsSantoDomingo() {
+        Config c = Config.desdeEntorno(base());
+        assertEquals("America/Santo_Domingo", c.zona().getId());
+        assertEquals("-04:00", c.desplazamientoSql());
+    }
+
+    @Test void zonaConfigurableYUtcSeFormateaParaMySql() {
+        var m = base();
+        m.put("AULA_ZONA", "UTC");
+        assertEquals("+00:00", Config.desdeEntorno(m).desplazamientoSql());
+        m.put("AULA_ZONA", "Europe/Madrid");
+        assertTrue(Config.desdeEntorno(m).desplazamientoSql().matches("[+-]\\d\\d:\\d\\d"));
+    }
+
+    @Test void zonaInvalidaSeRechaza() {
+        var m = base();
+        m.put("AULA_ZONA", "Marte/Olimpo");
+        assertThrows(IllegalStateException.class, () -> Config.desdeEntorno(m));
+    }
 }
