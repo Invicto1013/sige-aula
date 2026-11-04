@@ -16,7 +16,7 @@ jobs:
       - name: Compilar y probar
         run: mvn -B clean verify
       - name: Guardar el jar
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sige-aula
           path: target/sige-aula.jar
