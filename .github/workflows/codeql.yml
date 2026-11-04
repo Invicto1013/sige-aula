@@ -1,0 +1,28 @@
+# Analisis estatico de seguridad (CodeQL) de GitHub: busca inyecciones SQL, XSS, rutas inseguras, etc.
+# Los resultados aparecen en la pestana Security > Code scanning del repositorio.
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 9 * * 1"
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: java-kotlin
+          build-mode: none
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java-kotlin"

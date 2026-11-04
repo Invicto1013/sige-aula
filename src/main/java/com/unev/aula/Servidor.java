@@ -42,7 +42,7 @@ public final class Servidor {
     private static final Map<String, String> ERRORES = Map.ofEntries(
             Map.entry("datos", "Revisa los datos: tipo, título (máx. 120), descripción (máx. 5000) y textos obligatorios."),
             Map.entry("fecha", "La fecha límite no es válida."), Map.entry("grande", "Un archivo supera el tamaño máximo permitido."),
-            Map.entry("sinarchivo", "Selecciona un archivo antes de enviar."), Map.entry("maximo", "Se permiten hasta " + AulaDao.MAX_ADJUNTOS + " archivos por publicación."),
+            Map.entry("formato", "Tipo de archivo no permitido. Se aceptan: " + TiposArchivo.lista() + "."), Map.entry("sinarchivo", "Selecciona un archivo antes de enviar."), Map.entry("maximo", "Se permiten hasta " + AulaDao.MAX_ADJUNTOS + " archivos por publicación."),
             Map.entry("permiso", "No tienes permiso para esa acción (¿la sección es tuya o estás inscrito?)."),
             Map.entry("calificada", "Esa entrega ya fue calificada y no se puede reemplazar."), Map.entry("nota", "La nota debe ser un número entre 0 y 100."),
             Map.entry("ocupado", "El servidor está procesando otras subidas. Inténtalo de nuevo en unos segundos."),
@@ -373,6 +373,7 @@ public final class Servidor {
     // ================= utilidades =================
 
     private List<ArchivoGuardado> guardar(List<Multipart.Archivo> archivos) throws SQLException {
+        for (Multipart.Archivo a : archivos) if (!TiposArchivo.permitido(a.nombre(), a.datos())) throw new Rechazo("formato");
         List<ArchivoGuardado> hechos = new ArrayList<>();
         try {
             for (Multipart.Archivo a : archivos) hechos.add(new ArchivoGuardado(dao.guardarArchivo(a.datos()), a.nombre(), a.tipo(), a.datos().length));

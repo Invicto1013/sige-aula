@@ -301,6 +301,16 @@ class ServidorTest {
         });
     }
 
+    @Test void archivoDeTipoNoPermitidoSeRechazaSinLlegarAlDao() throws Exception {
+        conServidor((base, dao) -> {
+            String cookie = entrar(base, 1, "PROFESOR", "Ana Pérez");
+            String token = csrf(get(base + "/", cookie).cuerpo());
+            assertEquals("/?error=formato", multipart(base + "/publicar", cookie, "_csrf=" + token, "seccion=3", "tipo=CLASE", "titulo=Malo", "archivo=@virus.exe:MZ").h("Location"));
+            assertEquals("/?error=formato", multipart(base + "/publicar", cookie, "_csrf=" + token, "seccion=3", "tipo=CLASE", "titulo=Malo", "archivo=@falso.pdf:no-es-pdf").h("Location"));
+            assertTrue(dao.llamadas.isEmpty());
+        });
+    }
+
     @Test void archivoGrandeSeRechazaSinLlegarAlDao() throws Exception {
         conServidor((base, dao) -> {
             String cookie = entrar(base, 1, "PROFESOR", "Ana Pérez");
