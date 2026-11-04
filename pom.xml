@@ -15,7 +15,7 @@
     </properties>
 
     <dependencies>
-        <dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><version>8.4.0</version></dependency>
+        <dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><version>26.10.0</version></dependency>
         <dependency><groupId>com.zaxxer</groupId><artifactId>HikariCP</artifactId><version>5.1.0</version></dependency>
         <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>1.7.36</version></dependency>
         <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>${junit.version}</version><scope>test</scope></dependency>
