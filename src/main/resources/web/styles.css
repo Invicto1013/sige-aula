@@ -95,3 +95,11 @@ html[data-vision=contraste] .alert::before,html[data-vision=contraste] .estado.e
 
 /* Iconos del menú */
 .ico{display:inline-block;width:1.25em;text-align:center;font-style:normal}
+
+/* Tema: automático (sigue al sistema, por defecto), claro u oscuro */
+html[data-tema=claro]{--bg:#f4f6fb;--card:#fff;--ink:#17202f;--muted:#586175;--line:#dde2ec;--brand:#2f5bd8;--brand-ink:#fff;--ok:#146c43;--ok-bg:#e3f4ea;--bad:#a12622;--bad-bg:#fbe9e8;--warn:#8a5a00;--focus:#1b3fa8;color-scheme:light}
+html[data-tema=oscuro]{--bg:#10141c;--card:#181e2a;--ink:#e8ecf4;--muted:#a3adc2;--line:#2a3345;--brand:#7a9cff;--brand-ink:#0b1020;--ok:#7fd6a4;--ok-bg:#14301f;--bad:#ff9a95;--bad-bg:#3a1917;--warn:#f0c36d;--focus:#a9c0ff;color-scheme:dark}
+html[data-tema=claro][data-vision=daltonismo]{--brand:#0072b2;--brand-ink:#fff;--ok:#00436b;--ok-bg:#e6f1fa;--bad:#7a3300;--bad-bg:#fdf0e3;--warn:#8a5a00;--focus:#004a75}
+html[data-tema=oscuro][data-vision=daltonismo]{--brand:#56b4e9;--brand-ink:#0b1020;--ok:#8ecdf2;--ok-bg:#0f2a3d;--bad:#ffb366;--bad-bg:#3d2209;--warn:#f0e442;--focus:#8ecdf2}
+html[data-tema=claro][data-vision=contraste]{--bg:#fff;--card:#fff;--ink:#000;--muted:#000;--line:#000;--brand:#000;--brand-ink:#fff;--ok:#000;--ok-bg:#fff;--bad:#000;--bad-bg:#fff;--warn:#000;--focus:#ff8c00}
+html[data-tema=oscuro][data-vision=contraste]{--bg:#000;--card:#000;--ink:#fff;--muted:#fff;--line:#fff;--brand:#ffd400;--brand-ink:#000;--ok:#fff;--ok-bg:#000;--bad:#fff;--bad-bg:#000;--warn:#fff;--focus:#ffd400}

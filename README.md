@@ -34,3 +34,4 @@ Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (
 - **Web:** enlaces «Visión» en el pie de página; la elección se guarda en una cookie (`aula_vision`) sin datos personales y no usa JavaScript.
 - **Botones dinámicos:** el escritorio los anima con JavaFX (crecen al pasar el cursor y se hunden al pulsar) y la web con transiciones CSS; se desactivan con «reducir movimiento» del sistema. No requiere bibliotecas nuevas.
 - **Iconos:** cada apartado del menú lleva un icono decorativo (oculto para lectores de pantalla) y la pestaña muestra el logo de SIGE.
+- **Tema claro y oscuro:** la web ofrece Claro, Oscuro o Automático (sigue el tema del sistema) en el pie de página (`aula_tema`, por defecto Automático). El modo de visión (daltonismo, alto contraste) siempre prevalece sobre el tema.
