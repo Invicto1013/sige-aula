@@ -33,3 +33,4 @@ Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (
 - **Modos de visión:** Normal, Daltonismo (azul y naranja, paleta Okabe-Ito, más símbolos ✔ ⚠ para no depender del color) y Alto contraste.
 - **Web:** enlaces «Visión» en el pie de página; la elección se guarda en una cookie (`aula_vision`) sin datos personales y no usa JavaScript.
 - **Botones dinámicos:** el escritorio los anima con JavaFX (crecen al pasar el cursor y se hunden al pulsar) y la web con transiciones CSS; se desactivan con «reducir movimiento» del sistema. No requiere bibliotecas nuevas.
+- **Iconos:** cada apartado del menú lleva un icono decorativo (oculto para lectores de pantalla) y la pestaña muestra el logo de SIGE.

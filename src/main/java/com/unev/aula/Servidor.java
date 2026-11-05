@@ -96,6 +96,7 @@ public final class Servidor {
             switch (metodo + " " + ruta) {
                 case "GET /health" -> salud(x);
                 case "GET /styles.css" -> enviar(x, 200, "text/css; charset=utf-8", css, "public, max-age=3600");
+                case "GET /icon.svg" -> icono(x);
                 case "GET /sso" -> sso(x);
                 case "GET /vision" -> cambiarVision(x);
                 case "GET /" -> inicio(x);
@@ -461,6 +462,13 @@ public final class Servidor {
             if (kv.length == 2 && kv[0].equals(clave)) return URLDecoder.decode(kv[1], StandardCharsets.UTF_8);
         }
         return null;
+    }
+
+    private void icono(HttpExchange x) throws IOException {
+        try (InputStream in = Servidor.class.getResourceAsStream("/web/icon.svg")) {
+            if (in == null) { enviar(x, 404, "text/plain; charset=utf-8", "", null); return; }
+            enviar(x, 200, "image/svg+xml; charset=utf-8", new String(in.readAllBytes(), StandardCharsets.UTF_8), "public, max-age=86400");
+        }
     }
 
     /** Guarda el modo de visión en una cookie y vuelve a la página de origen (solo rutas locales). */

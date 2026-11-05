@@ -92,3 +92,6 @@ html[data-vision=contraste]{--bg:#fff;--card:#fff;--ink:#000;--muted:#000;--line
 html[data-vision=contraste] .exito,html[data-vision=contraste] .alert,html[data-vision=contraste] .estado{border:2px solid currentColor}
 html[data-vision=contraste] .exito::before,html[data-vision=contraste] .estado.e-ok::before{content:"✔ "}
 html[data-vision=contraste] .alert::before,html[data-vision=contraste] .estado.e-mal::before{content:"✖ "}
+
+/* Iconos del menú */
+.ico{display:inline-block;width:1.25em;text-align:center;font-style:normal}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Aula Virtual SIGE">
+  <rect width="512" height="512" rx="112" fill="#17324d"/>
+  <path d="M256 196C204 166 146 164 100 184v176c46-18 104-16 156 14z" fill="#ffffff"/>
+  <path d="M256 196c52-30 110-32 156-12v176c-46-18-104-16-156 14z" fill="#d6ece9"/>
+  <path d="M256 196v178" stroke="#17324d" stroke-width="9" stroke-linecap="round"/>
+  <g stroke="#0f766e" stroke-width="12" stroke-linecap="round" fill="none">
+    <path d="M140 238c34-10 68-6 88 6"/><path d="M140 282c34-10 68-6 88 6"/>
+    <path d="M372 238c-34-10-68-6-88 6"/><path d="M372 282c-34-10-68-6-88 6"/>
+  </g>
+  <path d="M256 74l14 38 38 14-38 14-14 38-14-38-38-14 38-14z" fill="#ef6530"/>
+</svg>
