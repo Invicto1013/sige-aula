@@ -11,6 +11,10 @@ import java.util.Map;
 public final class Html {
     private Html() { }
 
+    /** Modo de visión de la petición en curso (lo fija Servidor; vacío = normal). */
+    static final ThreadLocal<String> VISION = ThreadLocal.withInitial(() -> "normal");
+    static final ThreadLocal<String> RUTA = ThreadLocal.withInitial(() -> "/");
+
     public record VistaInicio(Usuario usuario, Sesiones.Sesion sesion, List<Seccion> secciones, List<Publicacion> todas, List<Publicacion> visibles,
                               FiltroAula filtro, Map<Integer, List<EntregaRecibida>> entregas, Map<Integer, List<Comentario>> comentarios,
                               long maxArchivoBytes, LocalDate hoy, String aviso) { }
@@ -37,10 +41,10 @@ public final class Html {
                     .append("<form method='post' action='/salir' class='inline'>").append(csrf(s)).append("<button type='submit' class='link'>Salir</button></form>");
         }
         nav.append("</nav>");
-        return "<!doctype html><html lang='es'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
+        return "<!doctype html><html lang='es'" + Vision.atributo(VISION.get()) + "><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
                 + "<title>" + esc(titulo) + " · Aula Virtual SIGE</title><link rel='stylesheet' href='/styles.css'></head><body>"
                 + "<a class='skip' href='#contenido'>Saltar al contenido</a><header><a class='marca' href='/'>SIGE <b>Aula Virtual</b></a>" + nav + "</header>"
-                + "<main id='contenido'>" + cuerpo + "</main><footer>Subsistema del Sistema de Gestión Escolar</footer></body></html>";
+                + "<main id='contenido'>" + cuerpo + "</main><footer>Subsistema del Sistema de Gestión Escolar " + Vision.selector(VISION.get(), RUTA.get()) + "</footer></body></html>";
     }
 
     private static String enlace(String href, String texto, boolean actual) {

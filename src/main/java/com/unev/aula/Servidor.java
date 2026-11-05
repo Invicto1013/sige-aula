@@ -90,10 +90,14 @@ public final class Servidor {
         try {
             String ruta = x.getRequestURI().getPath(), metodo = x.getRequestMethod();
             if (metodo.equals("HEAD")) metodo = "GET";
+            var cab = x.getRequestHeaders().get("Cookie");
+            Html.VISION.set(Vision.modo(cab == null ? null : String.join("; ", cab)));
+            Html.RUTA.set(ruta);
             switch (metodo + " " + ruta) {
                 case "GET /health" -> salud(x);
                 case "GET /styles.css" -> enviar(x, 200, "text/css; charset=utf-8", css, "public, max-age=3600");
                 case "GET /sso" -> sso(x);
+                case "GET /vision" -> cambiarVision(x);
                 case "GET /" -> inicio(x);
                 case "GET /tablon" -> tablon(x);
                 case "GET /editar" -> editarPagina(x);
@@ -114,6 +118,8 @@ public final class Servidor {
             LOG.log(Level.WARNING, "Error atendiendo " + x.getRequestURI(), e);
             enviar(x, 500, "text/html; charset=utf-8", Html.pagina("Error", cfg.urlSige(), null, "", Html.aviso("alert", "Ocurrió un error inesperado.")), null);
         } finally {
+            Html.VISION.remove();
+            Html.RUTA.remove();
             x.close();
         }
     }
@@ -455,6 +461,21 @@ public final class Servidor {
             if (kv.length == 2 && kv[0].equals(clave)) return URLDecoder.decode(kv[1], StandardCharsets.UTF_8);
         }
         return null;
+    }
+
+    /** Guarda el modo de visión en una cookie y vuelve a la página de origen (solo rutas locales). */
+    private void cambiarVision(HttpExchange x) throws IOException {
+        String modo = "normal", volver = null;
+        String q = x.getRequestURI().getRawQuery();
+        if (q != null) for (String par : q.split("&")) {
+            String[] kv = par.split("=", 2);
+            if (kv.length != 2) continue;
+            String v = java.net.URLDecoder.decode(kv[1], java.nio.charset.StandardCharsets.UTF_8);
+            if (kv[0].equals("modo")) modo = Vision.valido(v) ? v : "normal";
+            else if (kv[0].equals("volver")) volver = v;
+        }
+        x.getResponseHeaders().add("Set-Cookie", Vision.COOKIE + "=" + modo + "; Path=/; SameSite=Lax; Max-Age=31536000" + (cfg.cookieSegura() ? "; Secure" : ""));
+        redirigir(x, Vision.volverSeguro(volver));
     }
 
     private void redirigir(HttpExchange x, String destino) throws IOException {

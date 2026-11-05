@@ -68,3 +68,27 @@ nav a.actual{text-decoration:underline;text-underline-offset:4px}
 fieldset{border:1px solid var(--line);border-radius:8px;display:grid;gap:.3rem}
 .anuncio p{margin:.2rem 0}
 @media (max-width:40rem){.calificar{grid-template-columns:1fr}.lateral{align-items:flex-start}}
+
+/* Botones dinámicos (el movimiento se desactiva con prefers-reduced-motion, ver abajo) */
+.primary,button,.enlace{transition:transform .15s ease,box-shadow .2s ease,filter .2s ease}
+.primary:hover{transform:translateY(-1px);box-shadow:0 6px 14px #0003;filter:brightness(1.08)}
+.primary:active{transform:scale(.98);box-shadow:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* Selector de modo de visión */
+footer .vision{display:inline-flex;flex-wrap:wrap;gap:.25rem .75rem;margin-left:1rem;font-size:.85rem}
+footer .vision a[aria-current=true]{font-weight:800}
+
+/* Modo daltonismo: azul y naranja (Okabe-Ito) más símbolos */
+html[data-vision=daltonismo]{--brand:#0072b2;--brand-ink:#fff;--ok:#00436b;--ok-bg:#e6f1fa;--bad:#7a3300;--bad-bg:#fdf0e3;--warn:#8a5a00;--focus:#004a75}
+@media (prefers-color-scheme:dark){html[data-vision=daltonismo]{--brand:#56b4e9;--brand-ink:#0b1020;--ok:#8ecdf2;--ok-bg:#0f2a3d;--bad:#ffb366;--bad-bg:#3d2209;--warn:#f0e442;--focus:#8ecdf2}}
+html[data-vision=daltonismo] .exito::before,html[data-vision=daltonismo] .estado.e-ok::before{content:"✔ "}
+html[data-vision=daltonismo] .alert::before,html[data-vision=daltonismo] .estado.e-mal::before{content:"✖ "}
+html[data-vision=daltonismo] .estado.e-aviso::before{content:"● "}
+
+/* Modo alto contraste */
+html[data-vision=contraste]{--bg:#fff;--card:#fff;--ink:#000;--muted:#000;--line:#000;--brand:#000;--brand-ink:#fff;--ok:#000;--ok-bg:#fff;--bad:#000;--bad-bg:#fff;--warn:#000;--focus:#ff8c00}
+@media (prefers-color-scheme:dark){html[data-vision=contraste]{--bg:#000;--card:#000;--ink:#fff;--muted:#fff;--line:#fff;--brand:#ffd400;--brand-ink:#000;--ok:#fff;--ok-bg:#000;--bad:#fff;--bad-bg:#000;--warn:#fff;--focus:#ffd400}}
+html[data-vision=contraste] .exito,html[data-vision=contraste] .alert,html[data-vision=contraste] .estado{border:2px solid currentColor}
+html[data-vision=contraste] .exito::before,html[data-vision=contraste] .estado.e-ok::before{content:"✔ "}
+html[data-vision=contraste] .alert::before,html[data-vision=contraste] .estado.e-mal::before{content:"✖ "}

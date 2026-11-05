@@ -27,3 +27,9 @@ Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (
 ## Variables de entorno
 `AULA_DB_URL`, `AULA_DB_USER`, `AULA_DB_PASSWORD`, `AULA_SSO_SECRET` (32+), `AULA_SIGE_URL`, `PORT`,
 `AULA_SECURE_COOKIE` (por defecto `true`), `AULA_MAX_UPLOAD_MB` (10), `AULA_MAX_REQUEST_MB` (25), `AULA_DB_POOL_SIZE` (4), `AULA_ZONA` (zona horaria para mostrar fechas y contar el día límite; por defecto `America/Santo_Domingo`).
+
+## Accesibilidad visual y botones dinámicos
+
+- **Modos de visión:** Normal, Daltonismo (azul y naranja, paleta Okabe-Ito, más símbolos ✔ ⚠ para no depender del color) y Alto contraste.
+- **Web:** enlaces «Visión» en el pie de página; la elección se guarda en una cookie (`aula_vision`) sin datos personales y no usa JavaScript.
+- **Botones dinámicos:** el escritorio los anima con JavaFX (crecen al pasar el cursor y se hunden al pulsar) y la web con transiciones CSS; se desactivan con «reducir movimiento» del sistema. No requiere bibliotecas nuevas.
