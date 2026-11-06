@@ -18,4 +18,8 @@ class TemaTest {
         String h = Tema.selector("oscuro", "/x");
         assertTrue(h.contains("modo=oscuro") && h.contains("aria-current='true'") && h.contains("volver=%2Fx"));
     }
+    @Test void botonOfreceIrAOscuroYAClaro() {
+        String h = Tema.boton("/y");
+        assertTrue(h.contains("modo=oscuro") && h.contains("modo=claro") && h.contains("volver=%2Fy") && h.contains("to-claro"));
+    }
 }

@@ -103,3 +103,20 @@ html[data-tema=claro][data-vision=daltonismo]{--brand:#0072b2;--brand-ink:#fff;-
 html[data-tema=oscuro][data-vision=daltonismo]{--brand:#56b4e9;--brand-ink:#0b1020;--ok:#8ecdf2;--ok-bg:#0f2a3d;--bad:#ffb366;--bad-bg:#3d2209;--warn:#f0e442;--focus:#8ecdf2}
 html[data-tema=claro][data-vision=contraste]{--bg:#fff;--card:#fff;--ink:#000;--muted:#000;--line:#000;--brand:#000;--brand-ink:#fff;--ok:#000;--ok-bg:#fff;--bad:#000;--bad-bg:#fff;--warn:#000;--focus:#ff8c00}
 html[data-tema=oscuro][data-vision=contraste]{--bg:#000;--card:#000;--ink:#fff;--muted:#fff;--line:#fff;--brand:#ffd400;--brand-ink:#000;--ok:#fff;--ok-bg:#000;--bad:#fff;--bad-bg:#000;--warn:#fff;--focus:#ffd400}
+
+/* Barra superior: ojo (modos de visión) y brillo (claro/oscuro) */
+.ajustes{display:inline-flex;align-items:center;gap:.5rem}
+.tema-toggle{display:contents}
+.ajustes .tema-toggle a,.vision-menu>summary{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:1px solid var(--line);border-radius:.5rem;color:var(--ink);background:var(--card);cursor:pointer;list-style:none;text-decoration:none}
+.vision-menu>summary::-webkit-details-marker{display:none}
+.ajustes .tema-toggle a:hover,.vision-menu>summary:hover,.vision-menu[open]>summary{border-color:var(--brand);color:var(--brand)}
+.vision-menu{position:relative}
+.vision-panel{position:absolute;right:0;top:calc(100% + .5rem);min-width:12.5rem;display:grid;gap:.125rem;padding:.4rem;background:var(--card);border:1px solid var(--line);border-radius:.6rem;box-shadow:0 12px 28px #0004;z-index:40}
+.vision-panel strong{padding:.4rem .6rem;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vision-panel a{padding:.55rem .6rem;border-radius:.45rem;color:var(--ink);text-decoration:none;font-weight:500}
+.vision-panel a:hover{background:var(--bg)}
+.vision-panel a[aria-current=true]{font-weight:800}.vision-panel a[aria-current=true]::before{content:"✓ "}
+/* Por defecto (tema automático) el botón sigue al sistema; con tema fijo, al tema elegido */
+.ajustes .tema-toggle .to-claro{display:none}
+@media (prefers-color-scheme:dark){html:not([data-tema]) .ajustes .tema-toggle .to-claro{display:inline-flex}html:not([data-tema]) .ajustes .tema-toggle .to-oscuro{display:none}}
+html[data-tema=oscuro] .ajustes .tema-toggle .to-claro{display:inline-flex}html[data-tema=oscuro] .ajustes .tema-toggle .to-oscuro{display:none}
