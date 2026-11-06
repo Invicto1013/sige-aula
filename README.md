@@ -35,3 +35,7 @@ Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (
 - **Botones dinámicos:** el escritorio los anima con JavaFX (crecen al pasar el cursor y se hunden al pulsar) y la web con transiciones CSS; se desactivan con «reducir movimiento» del sistema. No requiere bibliotecas nuevas.
 - **Iconos:** cada apartado del menú lleva un icono decorativo (oculto para lectores de pantalla) y la pestaña muestra el logo de SIGE.
 - **Tema claro y oscuro:** un icono de brillo (luna/sol) en la barra superior cambia entre tema claro y oscuro; por defecto sigue el tema del sistema (`aula_tema`, por defecto Automático). El modo de visión (daltonismo, alto contraste) siempre prevalece sobre el tema.
+
+## Créditos
+
+Dependencias: HikariCP (Apache 2.0), MySQL Connector/J (GPL v2 con excepción FOSS), SLF4J (MIT) y JUnit 5 (EPL 2.0). El detalle de licencias, recursos propios y la verificación de originalidad está en el proyecto SIGE (`docs/CREDITOS_Y_ORIGINALIDAD.md`).
