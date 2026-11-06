@@ -11,9 +11,20 @@ import java.util.Map;
 public final class Html {
     private Html() { }
 
+    /** Zona horaria para decidir la estación del año (variable AULA_ZONA_HORARIA, por defecto -04:00). */
+    private static java.time.ZoneOffset zonaVisual() {
+        try {
+            String v = System.getenv("AULA_ZONA_HORARIA");
+            return java.time.ZoneOffset.of(v == null || v.isBlank() ? "-04:00" : v.trim());
+        } catch (java.time.DateTimeException e) {
+            return java.time.ZoneOffset.of("-04:00");
+        }
+    }
+
     /** Modo de visión de la petición en curso (lo fija Servidor; vacío = normal). */
     static final ThreadLocal<String> VISION = ThreadLocal.withInitial(() -> "normal");
     static final ThreadLocal<String> TEMA = ThreadLocal.withInitial(() -> Tema.PREDETERMINADO);
+    static final ThreadLocal<String> ESTACION = ThreadLocal.withInitial(() -> Estacion.PREDETERMINADO);
     static final ThreadLocal<String> RUTA = ThreadLocal.withInitial(() -> "/");
 
     public record VistaInicio(Usuario usuario, Sesiones.Sesion sesion, List<Seccion> secciones, List<Publicacion> todas, List<Publicacion> visibles,
@@ -32,19 +43,20 @@ public final class Html {
     }
 
     public static String pagina(String titulo, String urlSige, Sesiones.Sesion s, String activo, String cuerpo) {
+        String estacion = Estacion.efectiva(ESTACION.get(), java.time.LocalDate.now(zonaVisual()));
         StringBuilder nav = new StringBuilder("<nav aria-label='Principal'>");
         if (s != null) {
             nav.append(enlace("/", "Publicaciones", "inicio".equals(activo))).append(enlace("/tablon", "Tablón", "tablon".equals(activo)));
         }
-        nav.append("<span class='ajustes'>").append(Vision.menu(VISION.get(), RUTA.get())).append(Tema.boton(RUTA.get())).append("</span>");
+        nav.append("<span class='ajustes'>").append(Vision.menu(VISION.get(), RUTA.get(), Estacion.seccionMenu(ESTACION.get(), RUTA.get()))).append(Tema.boton(RUTA.get())).append("</span>");
         nav.append("<a href='").append(esc(urlSige)).append("'>").append(ico("↩")).append("Volver a SIGE</a>");
         if (s != null) {
             nav.append("<span class='quien'>").append(esc(s.nombre())).append(" · ").append(esc(s.rol().toLowerCase(Locale.ROOT))).append("</span>")
                     .append("<form method='post' action='/salir' class='inline'>").append(csrf(s)).append("<button type='submit' class='link'>").append(ico("🚪")).append("Salir</button></form>");
         }
         nav.append("</nav>");
-        return "<!doctype html><html lang='es'" + Vision.atributo(VISION.get()) + Tema.atributo(TEMA.get()) + "><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
-                + "<title>" + esc(titulo) + " · Aula Virtual SIGE</title><link rel='icon' href='/icon.svg' type='image/svg+xml'><link rel='stylesheet' href='/styles.css'></head><body>"
+        return "<!doctype html><html lang='es'" + Vision.atributo(VISION.get()) + Tema.atributo(TEMA.get()) + Estacion.atributo(estacion) + "><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
+                + "<title>" + esc(titulo) + " · Aula Virtual SIGE</title><link rel='icon' href='/icon.svg' type='image/svg+xml'><link rel='stylesheet' href='/styles.css'></head><body>" + Estacion.capa(estacion)
                 + "<a class='skip' href='#contenido'>Saltar al contenido</a><header><a class='marca' href='/'>SIGE <b>Aula Virtual</b></a>" + nav + "</header>"
                 + "<main id='contenido'>" + cuerpo + "</main><footer>Subsistema del Sistema de Gestión Escolar</footer></body></html>";
     }

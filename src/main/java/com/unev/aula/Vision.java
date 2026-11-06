@@ -58,6 +58,11 @@ public final class Vision {
 
     /** Menú desplegable con el icono de un ojo que agrupa los modos de visión (sin JavaScript). */
     public static String menu(String modoActual, String rutaActual) {
+        return menu(modoActual, rutaActual, "");
+    }
+
+    /** Igual que {@link #menu(String, String)} y añade al final del panel una sección extra (por ejemplo, la temporada). */
+    public static String menu(String modoActual, String rutaActual, String extraHtml) {
         String volver = URLEncoder.encode(volverSeguro(rutaActual), StandardCharsets.UTF_8);
         StringBuilder sb = new StringBuilder("<details class='vision-menu'><summary aria-label='Modo de visión' title='Modo de visión'>")
                 .append(ICONO_OJO).append("</summary><div class='vision-panel'><strong>Modo de visión</strong>");
@@ -66,6 +71,6 @@ public final class Vision {
             sb.append("<a href='/vision?modo=").append(MODOS[i]).append("&amp;volver=").append(volver).append('\'')
               .append(activo ? " aria-current='true'" : "").append('>').append(NOMBRES[i]).append("</a>");
         }
-        return sb.append("</div></details>").toString();
+        return sb.append(extraHtml == null ? "" : extraHtml).append("</div></details>").toString();
     }
 }

@@ -93,6 +93,7 @@ public final class Servidor {
             var cab = x.getRequestHeaders().get("Cookie");
             Html.VISION.set(Vision.modo(cab == null ? null : String.join("; ", cab)));
             Html.TEMA.set(Tema.modo(cab == null ? null : String.join("; ", cab)));
+            Html.ESTACION.set(Estacion.modo(cab == null ? null : String.join("; ", cab)));
             Html.RUTA.set(ruta);
             switch (metodo + " " + ruta) {
                 case "GET /health" -> salud(x);
@@ -101,6 +102,7 @@ public final class Servidor {
                 case "GET /sso" -> sso(x);
                 case "GET /vision" -> cambiarVision(x);
                 case "GET /tema" -> cambiarTema(x);
+                case "GET /estacion" -> cambiarEstacion(x);
                 case "GET /" -> inicio(x);
                 case "GET /tablon" -> tablon(x);
                 case "GET /editar" -> editarPagina(x);
@@ -123,6 +125,7 @@ public final class Servidor {
         } finally {
             Html.VISION.remove();
             Html.TEMA.remove();
+            Html.ESTACION.remove();
             Html.RUTA.remove();
             x.close();
         }
@@ -479,6 +482,21 @@ public final class Servidor {
             else if (kv[0].equals("volver")) volver = v;
         }
         x.getResponseHeaders().add("Set-Cookie", Tema.COOKIE + "=" + modo + "; Path=/; SameSite=Lax; Max-Age=31536000" + (cfg.cookieSegura() ? "; Secure" : ""));
+        redirigir(x, Vision.volverSeguro(volver));
+    }
+
+    /** Guarda la preferencia de temporada (auto, una estación o sin efectos) y vuelve a la página de origen. */
+    private void cambiarEstacion(HttpExchange x) throws IOException {
+        String modo = Estacion.PREDETERMINADO, volver = null;
+        String q = x.getRequestURI().getRawQuery();
+        if (q != null) for (String par : q.split("&")) {
+            String[] kv = par.split("=", 2);
+            if (kv.length != 2) continue;
+            String v = java.net.URLDecoder.decode(kv[1], java.nio.charset.StandardCharsets.UTF_8);
+            if (kv[0].equals("modo")) modo = Estacion.valido(v) ? v : Estacion.PREDETERMINADO;
+            else if (kv[0].equals("volver")) volver = v;
+        }
+        x.getResponseHeaders().add("Set-Cookie", Estacion.COOKIE + "=" + modo + "; Path=/; SameSite=Lax; Max-Age=31536000" + (cfg.cookieSegura() ? "; Secure" : ""));
         redirigir(x, Vision.volverSeguro(volver));
     }
 

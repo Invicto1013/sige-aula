@@ -35,6 +35,7 @@ Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (
 - **Botones dinámicos:** el escritorio los anima con JavaFX (crecen al pasar el cursor y se hunden al pulsar) y la web con transiciones CSS; se desactivan con «reducir movimiento» del sistema. No requiere bibliotecas nuevas.
 - **Iconos:** cada apartado del menú lleva un icono decorativo (oculto para lectores de pantalla) y la pestaña muestra el logo de SIGE.
 - **Tema claro y oscuro:** un icono de brillo (luna/sol) en la barra superior cambia entre tema claro y oscuro; por defecto sigue el tema del sistema (`aula_tema`, por defecto Automático). El modo de visión (daltonismo, alto contraste) siempre prevalece sobre el tema.
+- **Estaciones del año:** los fondos, colores de acento y animaciones (flores, sol, hojas, nieve) cambian solos 7 días antes del inicio de cada estación (hemisferio norte: 13-mar, 14-jun, 15-sep y 14-dic). Se puede elegir la temporada o desactivar los efectos desde el menú del ojo. Los efectos se desactivan con «reducir movimiento» del sistema y en el modo de alto contraste.
 
 ## Créditos
 

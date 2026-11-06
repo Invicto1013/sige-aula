@@ -120,3 +120,51 @@ html[data-tema=oscuro][data-vision=contraste]{--bg:#000;--card:#000;--ink:#fff;-
 .ajustes .tema-toggle .to-claro{display:none}
 @media (prefers-color-scheme:dark){html:not([data-tema]) .ajustes .tema-toggle .to-claro{display:inline-flex}html:not([data-tema]) .ajustes .tema-toggle .to-oscuro{display:none}}
 html[data-tema=oscuro] .ajustes .tema-toggle .to-claro{display:inline-flex}html[data-tema=oscuro] .ajustes .tema-toggle .to-oscuro{display:none}
+
+/* ---- Estaciones del año: fondos y animaciones decorativas (se activan solas al acercarse cada estación) ---- */
+html[data-estacion] body{background-attachment:fixed}
+html[data-estacion=primavera] body{background-image:radial-gradient(circle at 12% 8%,#f9a8d447 0,transparent 42%),radial-gradient(circle at 92% 92%,#86efac40 0,transparent 42%)}
+html[data-estacion=verano] body{background-image:radial-gradient(circle at 92% 6%,#fde04766 0,transparent 38%),radial-gradient(circle at 6% 96%,#38bdf840 0,transparent 42%)}
+html[data-estacion=otono] body{background-image:radial-gradient(circle at 10% 8%,#fb923c47 0,transparent 42%),radial-gradient(circle at 92% 94%,#b4530940 0,transparent 44%)}
+html[data-estacion=invierno] body{background-image:radial-gradient(circle at 50% -10%,#bae6fd66 0,transparent 55%),radial-gradient(circle at 90% 100%,#e0f2fe44 0,transparent 45%)}
+html[data-estacion=primavera] .topbar{border-bottom:3px solid #f472b6}
+html[data-estacion=verano] .topbar{border-bottom:3px solid #fbbf24}
+html[data-estacion=otono] .topbar{border-bottom:3px solid #f97316}
+html[data-estacion=invierno] .topbar{border-bottom:3px solid #7dd3fc}
+html[data-estacion=primavera] .auth-brand-no-existe::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#f9a8d433,transparent 55%);z-index:0}
+html[data-estacion=verano] .auth-brand-no-existe::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#fde04733,transparent 55%);z-index:0}
+html[data-estacion=otono] .auth-brand-no-existe::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#fb923c33,transparent 55%);z-index:0}
+html[data-estacion=invierno] .auth-brand-no-existe::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#bae6fd33,transparent 55%);z-index:0}
+.estacion-fx{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.estacion-fx span{position:absolute;top:-8%;line-height:1;opacity:.85;animation:est-caer linear infinite;will-change:transform}
+.estacion-fx span::before{content:"•"}
+html[data-estacion=primavera] .estacion-fx span::before{content:"🌸"}
+html[data-estacion=primavera] .estacion-fx span:nth-child(3n)::before{content:"🌼"}
+html[data-estacion=otono] .estacion-fx span::before{content:"🍂"}
+html[data-estacion=otono] .estacion-fx span:nth-child(2n)::before{content:"🍁"}
+html[data-estacion=invierno] .estacion-fx span::before{content:"❄"}
+html[data-estacion=invierno] .estacion-fx span{color:#7dd3fc;text-shadow:0 0 5px #38bdf8}
+html[data-estacion=invierno] .estacion-fx span:nth-child(2n)::before{content:"❅"}
+html[data-estacion=verano] .estacion-fx span{top:auto;bottom:-8%;color:#fbbf24;text-shadow:0 0 8px #fde047;animation-name:est-subir}
+html[data-estacion=verano] .estacion-fx span::before{content:"✦"}
+html[data-estacion=verano] .estacion-fx span:nth-child(3n)::before{content:"☀"}
+.estacion-fx span:nth-child(1){left:2.3%;font-size:16px;animation-duration:12.2s;animation-delay:-0.6s;--dx:80px}
+.estacion-fx span:nth-child(2){left:8.5%;font-size:22px;animation-duration:9.5s;animation-delay:-4.8s;--dx:-60px}
+.estacion-fx span:nth-child(3){left:15.5%;font-size:20px;animation-duration:9.6s;animation-delay:-0.9s;--dx:60px}
+.estacion-fx span:nth-child(4){left:22.5%;font-size:22px;animation-duration:10.0s;animation-delay:-2.2s;--dx:80px}
+.estacion-fx span:nth-child(5){left:33.2%;font-size:22px;animation-duration:13.7s;animation-delay:-0.7s;--dx:-40px}
+.estacion-fx span:nth-child(6){left:36.7%;font-size:16px;animation-duration:11.3s;animation-delay:-1.6s;--dx:-60px}
+.estacion-fx span:nth-child(7){left:45.9%;font-size:22px;animation-duration:15.5s;animation-delay:-2.8s;--dx:80px}
+.estacion-fx span:nth-child(8){left:53.0%;font-size:16px;animation-duration:12.0s;animation-delay:-6.6s;--dx:-60px}
+.estacion-fx span:nth-child(9){left:60.1%;font-size:22px;animation-duration:10.6s;animation-delay:-7.2s;--dx:60px}
+.estacion-fx span:nth-child(10){left:68.0%;font-size:20px;animation-duration:13.7s;animation-delay:-6.2s;--dx:40px}
+.estacion-fx span:nth-child(11){left:73.0%;font-size:16px;animation-duration:14.6s;animation-delay:-3.6s;--dx:80px}
+.estacion-fx span:nth-child(12){left:80.3%;font-size:20px;animation-duration:16.0s;animation-delay:-11.7s;--dx:40px}
+.estacion-fx span:nth-child(13){left:88.6%;font-size:14px;animation-duration:9.9s;animation-delay:-4.1s;--dx:40px}
+.estacion-fx span:nth-child(14){left:93.9%;font-size:20px;animation-duration:12.4s;animation-delay:-11.9s;--dx:-60px}
+@keyframes est-caer{0%{transform:translate(0,-8vh) rotate(0)}50%{transform:translate(calc(var(--dx) * .5),55vh) rotate(180deg)}100%{transform:translate(var(--dx),112vh) rotate(360deg)}}
+@keyframes est-subir{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:.9}100%{transform:translate(var(--dx),-112vh) scale(1.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.estacion-fx{display:none}}
+@media print{.estacion-fx{display:none}}
+html[data-vision=contraste] .estacion-fx,html[data-vision=contraste] .auth-brand-no-existe::before{display:none}
+html[data-vision=contraste][data-estacion] body{background-image:none}
