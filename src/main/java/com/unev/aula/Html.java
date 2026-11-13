@@ -48,7 +48,7 @@ public final class Html {
         if (s != null) {
             nav.append(enlace("/", "Publicaciones", "inicio".equals(activo))).append(enlace("/tablon", "Tablón", "tablon".equals(activo)));
         }
-        nav.append("<span class='ajustes'>").append(Vision.menu(VISION.get(), RUTA.get(), Estacion.seccionMenu(ESTACION.get(), RUTA.get()))).append(Tema.boton(RUTA.get())).append("</span>");
+        nav.append("<span class='ajustes'>").append(Vision.menu(VISION.get(), RUTA.get(), Estacion.seccionMenu(ESTACION.get(), RUTA.get()))).append(Tema.boton(RUTA.get())).append("<a class='acerca-btn' href='/acerca' title='Acerca de' aria-label='Acerca de'>❓</a>").append("</span>");
         nav.append("<a href='").append(esc(urlSige)).append("'>").append(ico("↩")).append("Volver a SIGE</a>");
         if (s != null) {
             nav.append("<span class='quien'>").append(esc(s.nombre())).append(" · ").append(esc(s.rol().toLowerCase(Locale.ROOT))).append("</span>")
@@ -58,7 +58,7 @@ public final class Html {
         return "<!doctype html><html lang='es'" + Vision.atributo(VISION.get()) + Tema.atributo(TEMA.get()) + Estacion.atributo(estacion) + "><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
                 + "<title>" + esc(titulo) + " · Aula Virtual SIGE</title><link rel='icon' href='/icon.svg' type='image/svg+xml'><link rel='stylesheet' href='/styles.css'></head><body>" + Estacion.capa(estacion)
                 + "<a class='skip' href='#contenido'>Saltar al contenido</a><header><a class='marca' href='/'>SIGE <b>Aula Virtual</b></a>" + nav + "</header>"
-                + "<main id='contenido'>" + cuerpo + "</main><footer>Subsistema del Sistema de Gestión Escolar</footer></body></html>";
+                + "<main id='contenido'>" + cuerpo + "</main><footer>Subsistema del Sistema de Gestión Escolar<br>" + Html.esc(Acerca.PIE) + "</footer></body></html>";
     }
 
     private static String ico(String simbolo) { return "<span class='ico' aria-hidden='true'>" + simbolo + "</span> "; }

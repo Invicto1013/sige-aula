@@ -129,6 +129,16 @@ class ServidorTest {
         try { p.ejecutar("http://localhost:" + srv.puerto(), dao); } finally { srv.detener(); }
     }
 
+    @Test void paginaAcercaEsPublicaYMuestraAutorEInstitucion() throws Exception {
+        conServidor((base, dao) -> {
+            R r = get(base + "/acerca", null);
+            assertEquals(200, r.codigo());
+            assertTrue(r.cuerpo().contains("Elian Castro") && r.cuerpo().contains("Universidad Nacional Evangélica (UNEV)"));
+            assertTrue(r.cuerpo().contains("href='/acerca'"));
+            assertTrue(r.h("Content-Security-Policy").contains("script-src 'none'"));
+        });
+    }
+
     @Test void accesoYSeguridadBasica() throws Exception {
         conServidor((base, dao) -> {
             assertEquals(200, get(base + "/health", null).codigo());

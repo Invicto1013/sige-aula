@@ -31,7 +31,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON sige_db.aula_calificaciones TO 'aula_app
 GRANT SELECT, INSERT, UPDATE, DELETE ON sige_db.aula_anuncios TO 'aula_app'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON sige_db.aula_comentarios TO 'aula_app'@'%';
 ```
-Si tu base no se llama `sige_db`, cambia el nombre. Si Aiven no te deja, usa el usuario actual y anótalo como limitación.
+Si tu base no se llama `sige_db`, cambia el nombre. Si TiDB no te deja, usa el usuario actual y anótalo como limitación.
 
 ## 2. Secreto compartido
 ```powershell
@@ -47,7 +47,7 @@ $b = New-Object byte[] 48; [Security.Cryptography.RandomNumberGenerator]::Create
 
 | Variable | Valor |
 |---|---|
-| `AULA_DB_URL` | la misma URL JDBC de SIGE (con `sslMode=REQUIRED` para Aiven) |
+| `AULA_DB_URL` | la misma URL JDBC de SIGE (con `sslMode=REQUIRED` para TiDB, que exige TLS; usa `sslMode=VERIFY_IDENTITY`) |
 | `AULA_DB_USER` | `aula_app` (o el usuario que uses) |
 | `AULA_DB_PASSWORD` | contraseña de ese usuario |
 | `AULA_SSO_SECRET` | el secreto del paso 2 |

@@ -100,6 +100,7 @@ public final class Servidor {
                 case "GET /styles.css" -> enviar(x, 200, "text/css; charset=utf-8", css, "public, max-age=3600");
                 case "GET /icon.svg" -> icono(x);
                 case "GET /sso" -> sso(x);
+                case "GET /acerca" -> acerca(x);
                 case "GET /vision" -> cambiarVision(x);
                 case "GET /tema" -> cambiarTema(x);
                 case "GET /estacion" -> cambiarEstacion(x);
@@ -505,6 +506,12 @@ public final class Servidor {
             if (in == null) { enviar(x, 404, "text/plain; charset=utf-8", "", null); return; }
             enviar(x, 200, "image/svg+xml; charset=utf-8", new String(in.readAllBytes(), StandardCharsets.UTF_8), "public, max-age=86400");
         }
+    }
+
+    /** Página pública «Acerca de»: texto fijo, se muestra con o sin sesión. */
+    private void acerca(HttpExchange x) throws IOException {
+        Sesiones.Sesion s = sesionVigente(x);
+        enviar(x, 200, "text/html; charset=utf-8", Html.pagina("Acerca de", cfg.urlSige(), s, "", Acerca.cuerpo()), "no-store");
     }
 
     /** Guarda el modo de visión en una cookie y vuelve a la página de origen (solo rutas locales). */

@@ -107,9 +107,9 @@ html[data-tema=oscuro][data-vision=contraste]{--bg:#000;--card:#000;--ink:#fff;-
 /* Barra superior: ojo (modos de visión) y brillo (claro/oscuro) */
 .ajustes{display:inline-flex;align-items:center;gap:.5rem}
 .tema-toggle{display:contents}
-.ajustes .tema-toggle a,.vision-menu>summary{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:1px solid var(--line);border-radius:.5rem;color:var(--ink);background:var(--card);cursor:pointer;list-style:none;text-decoration:none}
+.ajustes .tema-toggle a,.ajustes .acerca-btn,.vision-menu>summary{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:1px solid var(--line);border-radius:.5rem;color:var(--ink);background:var(--card);cursor:pointer;list-style:none;text-decoration:none}
 .vision-menu>summary::-webkit-details-marker{display:none}
-.ajustes .tema-toggle a:hover,.vision-menu>summary:hover,.vision-menu[open]>summary{border-color:var(--brand);color:var(--brand)}
+.ajustes .tema-toggle a:hover,.ajustes .acerca-btn:hover,.vision-menu>summary:hover,.vision-menu[open]>summary{border-color:var(--brand);color:var(--brand)}
 .vision-menu{position:relative}
 .vision-panel{position:absolute;right:0;top:calc(100% + .5rem);min-width:12.5rem;display:grid;gap:.125rem;padding:.4rem;background:var(--card);border:1px solid var(--line);border-radius:.6rem;box-shadow:0 12px 28px #0004;z-index:40}
 .vision-panel strong{padding:.4rem .6rem;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -120,6 +120,10 @@ html[data-tema=oscuro][data-vision=contraste]{--bg:#000;--card:#000;--ink:#fff;-
 .ajustes .tema-toggle .to-claro{display:none}
 @media (prefers-color-scheme:dark){html:not([data-tema]) .ajustes .tema-toggle .to-claro{display:inline-flex}html:not([data-tema]) .ajustes .tema-toggle .to-oscuro{display:none}}
 html[data-tema=oscuro] .ajustes .tema-toggle .to-claro{display:inline-flex}html[data-tema=oscuro] .ajustes .tema-toggle .to-oscuro{display:none}
+
+.acerca dl{display:grid;grid-template-columns:max-content 1fr;gap:.5rem 1rem;margin:1rem 0}
+.acerca dt{font-weight:700;color:var(--muted)}.acerca dd{margin:0;overflow-wrap:anywhere}
+@media (max-width:560px){.acerca dl{grid-template-columns:1fr}.acerca dd{margin-bottom:.5rem}}
 
 /* ---- Estaciones del año: fondos y animaciones decorativas (se activan solas al acercarse cada estación) ---- */
 html[data-estacion] body{background-attachment:fixed}

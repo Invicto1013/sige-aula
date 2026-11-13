@@ -1,5 +1,7 @@
 # SIGE · Aula Virtual
 
+**Autor:** Elian Castro · **Institución:** Universidad Nacional Evangélica (UNEV)
+
 Subsistema del Sistema de Gestión Escolar (SIGE). Permite a los profesores publicar clases y tareas, y a los estudiantes entregarlas.
 Aplicación independiente (Java 21, sin frameworks, servidor `com.sun.net.httpserver`) que comparte con SIGE la base de datos y el inicio de sesión.
 
@@ -13,10 +15,11 @@ Aplicación independiente (Java 21, sin frameworks, servidor `com.sun.net.httpse
 - Estados de tarea: pendiente, sin entregar (vencida), entregada, entregada tarde, calificada.
 - Filtros de búsqueda: texto (sin distinguir acentos), sección, tipo y estado; el tablón filtra por sección. Se aplican en memoria sobre lo que el usuario ya tiene permiso de ver.
 - Tablón de anuncios por sección.
+- Icono ❓ en la barra superior: página pública `/acerca` con la información del proyecto, el autor y la institución.
 
 ## Arquitectura
 ```
-Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (Render) ──► MySQL (Aiven)
+Navegador ──► SIGE (Render) ──303 + token HMAC (180 s)──► Aula (Render) ──► MySQL (TiDB Cloud)
                     └────────────── misma base de datos ──────────────────┘
 ```
 - `Sso`: crea y verifica el token (HMAC-SHA256, caduca en 180 s, un solo uso).
