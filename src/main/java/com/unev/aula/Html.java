@@ -46,7 +46,7 @@ public final class Html {
         String estacion = Estacion.efectiva(ESTACION.get(), java.time.LocalDate.now(zonaVisual()));
         StringBuilder nav = new StringBuilder("<nav aria-label='Principal'>");
         if (s != null) {
-            nav.append(enlace("/", "Publicaciones", "inicio".equals(activo))).append(enlace("/tablon", "Tablón", "tablon".equals(activo)));
+            nav.append(enlace("/", "Publicaciones", "inicio".equals(activo))).append(enlace("/tablon", "Tablón", "tablon".equals(activo))).append(enlace("/domino", "Dominó", "domino".equals(activo)));
         }
         nav.append("<span class='ajustes'>").append(Vision.menu(VISION.get(), RUTA.get(), Estacion.seccionMenu(ESTACION.get(), RUTA.get()))).append(Tema.boton(RUTA.get())).append("<a class='acerca-btn' href='/acerca' title='Acerca de' aria-label='Acerca de'>❓</a>").append("</span>");
         nav.append("<a href='").append(esc(urlSige)).append("'>").append(ico("↩")).append("Volver a SIGE</a>");
@@ -64,11 +64,11 @@ public final class Html {
     private static String ico(String simbolo) { return "<span class='ico' aria-hidden='true'>" + simbolo + "</span> "; }
 
     private static String enlace(String href, String texto, boolean actual) {
-        String simbolo = href.equals("/") ? "📚" : href.equals("/tablon") ? "📌" : "";
+        String simbolo = href.equals("/") ? "📚" : href.equals("/tablon") ? "📌" : href.equals("/domino") ? "🎲" : "";
         return "<a href='" + href + "'" + (actual ? " aria-current='page' class='actual'" : "") + ">" + (simbolo.isEmpty() ? "" : ico(simbolo)) + texto + "</a>";
     }
 
-    private static String csrf(Sesiones.Sesion s) { return "<input type='hidden' name='_csrf' value='" + esc(s.csrf()) + "'>"; }
+    static String csrf(Sesiones.Sesion s) { return "<input type='hidden' name='_csrf' value='" + esc(s.csrf()) + "'>"; }
 
     public static String aviso(String clase, String texto) {
         return "<div class='" + clase + "' role='" + ("alert".equals(clase) ? "alert" : "status") + "'>" + esc(texto) + "</div>";

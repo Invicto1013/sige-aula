@@ -55,6 +55,7 @@ public final class Servidor {
     private final Config cfg;
     private final AulaDao dao;
     private final Sesiones sesiones = new Sesiones();
+    private final SalaDomino sala = new SalaDomino();
     private final Sso.UsoUnico usoUnico = new Sso.UsoUnico();
     private final Semaphore subidas = new Semaphore(2); // protege la memoria de la instancia gratuita
     private final String css;
@@ -101,6 +102,14 @@ public final class Servidor {
                 case "GET /icon.svg" -> icono(x);
                 case "GET /sso" -> sso(x);
                 case "GET /acerca" -> acerca(x);
+                case "GET /domino" -> dominoLobby(x);
+                case "GET /domino-partida" -> dominoPartida(x);
+                case "POST /domino-crear" -> accion(x, null, this::dominoCrear);
+                case "POST /domino-unir" -> accion(x, null, this::dominoUnir);
+                case "POST /domino-jugar" -> accion(x, null, this::dominoJugar);
+                case "POST /domino-robar" -> accion(x, null, this::dominoRobar);
+                case "POST /domino-pasar" -> accion(x, null, this::dominoPasar);
+                case "POST /domino-abandonar" -> accion(x, null, this::dominoAbandonar);
                 case "GET /vision" -> cambiarVision(x);
                 case "GET /tema" -> cambiarTema(x);
                 case "GET /estacion" -> cambiarEstacion(x);
@@ -507,6 +516,60 @@ public final class Servidor {
             enviar(x, 200, "image/svg+xml; charset=utf-8", new String(in.readAllBytes(), StandardCharsets.UTF_8), "public, max-age=86400");
         }
     }
+
+    // ================= dominó (en memoria, sin base de datos) =================
+
+    private void dominoLobby(HttpExchange x) throws IOException {
+        Sesiones.Sesion s = sesionVigente(x);
+        if (s == null) { enviar(x, 401, "text/html; charset=utf-8", Html.pagina("Dominó", cfg.urlSige(), null, "", Html.sinSesion(cfg.urlSige())), "no-store"); return; }
+        long ahora = System.currentTimeMillis();
+        String cuerpo = HtmlDomino.lobby(s, sala.abiertas(s.idUsuario(), ahora), sala.deUsuario(s.idUsuario(), ahora), consulta(x, "error"));
+        enviar(x, 200, "text/html; charset=utf-8", Html.pagina("Dominó", cfg.urlSige(), s, "domino", cuerpo), "no-store");
+    }
+
+    private void dominoPartida(HttpExchange x) throws IOException {
+        Sesiones.Sesion s = sesionVigente(x);
+        if (s == null) { enviar(x, 401, "text/html; charset=utf-8", Html.pagina("Dominó", cfg.urlSige(), null, "", Html.sinSesion(cfg.urlSige())), "no-store"); return; }
+        Domino.Partida p = sala.obtener(consulta(x, "id"));
+        if (p == null || p.numero(s.idUsuario()) == 0) { redirigir(x, "/domino?error=no-existe"); return; }
+        String html = Html.pagina("Dominó", cfg.urlSige(), s, "domino", HtmlDomino.partida(s, p, consulta(x, "error")));
+        int yo = p.numero(s.idUsuario());
+        boolean esperando = p.estado() == Domino.Estado.ESPERA || (p.estado() == Domino.Estado.JUGANDO && p.turno() != yo);
+        if (esperando) html = html.replace("<link rel='icon'", "<meta http-equiv='refresh' content='4'><link rel='icon'");
+        enviar(x, 200, "text/html; charset=utf-8", html, "no-store");
+    }
+
+    private String dominoCrear(Sesiones.Sesion s, Multipart.Formulario f) {
+        try {
+            return "/domino-partida?id=" + sala.crear(s.idUsuario(), s.nombre(), System.currentTimeMillis()).id();
+        } catch (Domino.Invalida e) { return "/domino?error=" + e.codigo(); }
+    }
+
+    private String dominoUnir(Sesiones.Sesion s, Multipart.Formulario f) {
+        String id = f.campo("id");
+        try {
+            return "/domino-partida?id=" + sala.unir(id, s.idUsuario(), s.nombre(), System.currentTimeMillis()).id();
+        } catch (Domino.Invalida e) { return "/domino?error=" + e.codigo(); }
+    }
+
+    private String jugadaDomino(Sesiones.Sesion s, Multipart.Formulario f, java.util.function.BiConsumer<Domino.Partida, Long> accion) {
+        Domino.Partida p = sala.obtener(f.campo("id"));
+        if (p == null || p.numero(s.idUsuario()) == 0) return "/domino?error=no-existe";
+        try {
+            accion.accept(p, System.currentTimeMillis());
+            return "/domino-partida?id=" + p.id();
+        } catch (Domino.Invalida e) { return "/domino-partida?id=" + p.id() + "&error=" + e.codigo(); }
+    }
+
+    private String dominoJugar(Sesiones.Sesion s, Multipart.Formulario f) {
+        return jugadaDomino(s, f, (p, t) -> p.jugar(s.idUsuario(), Domino.Ficha.de(f.campo("ficha")), "I".equals(f.campo("lado")), t));
+    }
+
+    private String dominoRobar(Sesiones.Sesion s, Multipart.Formulario f) { return jugadaDomino(s, f, (p, t) -> p.robar(s.idUsuario(), t)); }
+
+    private String dominoPasar(Sesiones.Sesion s, Multipart.Formulario f) { return jugadaDomino(s, f, (p, t) -> p.pasar(s.idUsuario(), t)); }
+
+    private String dominoAbandonar(Sesiones.Sesion s, Multipart.Formulario f) { return jugadaDomino(s, f, (p, t) -> p.abandonar(s.idUsuario(), t)); }
 
     /** Página pública «Acerca de»: texto fijo, se muestra con o sin sesión. */
     private void acerca(HttpExchange x) throws IOException {

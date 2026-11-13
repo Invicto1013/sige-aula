@@ -15,6 +15,7 @@ Aplicación independiente (Java 21, sin frameworks, servidor `com.sun.net.httpse
 - Estados de tarea: pendiente, sin entregar (vencida), entregada, entregada tarde, calificada.
 - Filtros de búsqueda: texto (sin distinguir acentos), sección, tipo y estado; el tablón filtra por sección. Se aplican en memoria sobre lo que el usuario ya tiene permiso de ver.
 - Tablón de anuncios por sección.
+- Dominó 🎲 para dos jugadores en línea (doble seis, 7 fichas cada uno, pozo, robar/pasar, tranque y abandono). Las partidas viven en memoria: se pierden si Render reinicia o duerme el servicio, y caducan a las 3 h sin movimientos. Se actualiza solo (meta refresh) sin scripts.
 - Icono ❓ en la barra superior: página pública `/acerca` con la información del proyecto, el autor y la institución.
 
 ## Arquitectura

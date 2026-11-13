@@ -33,7 +33,7 @@ class ServidorTest {
         DaoFalso() { super(null); }
 
         @Override public Optional<Usuario> usuarioActivo(int id, String rol) {
-            return id == 1 ? Optional.of(new Usuario(1, "PROFESOR", "Ana Pérez")) : id == 2 ? Optional.of(new Usuario(2, "ESTUDIANTE", "Luis Gómez")) : Optional.empty();
+            return id == 1 ? Optional.of(new Usuario(1, "PROFESOR", "Ana Pérez")) : id == 2 ? Optional.of(new Usuario(2, "ESTUDIANTE", "Luis Gómez")) : id == 3 ? Optional.of(new Usuario(3, "ESTUDIANTE", "Eva Mora")) : Optional.empty();
         }
         @Override public boolean haySesionBd() { return true; }
         @Override public List<Seccion> secciones(Usuario u) { return List.of(new Seccion(3, "Matemática", "1.º", "Lun 8:00")); }
@@ -136,6 +136,33 @@ class ServidorTest {
             assertTrue(r.cuerpo().contains("Elian Castro") && r.cuerpo().contains("Universidad Nacional Evangélica (UNEV)"));
             assertTrue(r.cuerpo().contains("href='/acerca'"));
             assertTrue(r.h("Content-Security-Policy").contains("script-src 'none'"));
+        });
+    }
+
+    @Test void dominoDosJugadoresEnLinea() throws Exception {
+        conServidor((base, dao) -> {
+            assertEquals(401, get(base + "/domino", null).codigo());
+            String a = entrar(base, 1, "PROFESOR", "Ana Pérez"), b = entrar(base, 2, "ESTUDIANTE", "Luis Gómez"), c = entrar(base, 3, "ESTUDIANTE", "Eva Mora");
+            String tokA = csrf(get(base + "/domino", a).cuerpo()), tokB = csrf(get(base + "/domino", b).cuerpo());
+            assertEquals(403, post(base + "/domino-crear", a, "x=1").codigo());
+            String loc = post(base + "/domino-crear", a, "_csrf=" + tokA).h("Location");
+            assertTrue(loc.startsWith("/domino-partida?id="));
+            String id = loc.substring(loc.indexOf("id=") + 3);
+            R espera = get(base + loc, a);
+            assertTrue(espera.cuerpo().contains("Esperando") && espera.cuerpo().contains("http-equiv='refresh'"));
+            assertTrue(get(base + "/domino", b).cuerpo().contains("Unirme"));
+            assertEquals(loc, post(base + "/domino-unir", b, "_csrf=" + tokB + "&id=" + id).h("Location"));
+            assertEquals("/domino?error=no-existe", get(base + loc, c).h("Location"));
+            R pa = get(base + loc, a), pb = get(base + loc, b);
+            assertTrue(pa.cuerpo().contains("Tus fichas") && pb.cuerpo().contains("Ana Pérez"));
+            assertTrue(pa.r().headers().firstValue("Content-Security-Policy").orElse("").contains("script-src 'none'"));
+            boolean turnoA = pa.cuerpo().contains("Es tu turno.");
+            String esperando = turnoA ? b : a, tokEsperando = turnoA ? tokB : tokA;
+            assertEquals("/domino-partida?id=" + id + "&error=no-es-tu-turno", post(base + "/domino-robar", esperando, "_csrf=" + tokEsperando + "&id=" + id).h("Location"));
+            assertEquals("/domino-partida?id=" + id + "&error=no-es-tu-turno", post(base + "/domino-jugar", esperando, "_csrf=" + tokEsperando + "&id=" + id + "&ficha=0-0&lado=I").h("Location"));
+            assertEquals("/domino?error=no-existe", post(base + "/domino-jugar", c, "_csrf=" + csrf(get(base + "/domino", c).cuerpo()) + "&id=" + id + "&ficha=0-0&lado=I").h("Location"));
+            assertEquals(loc, post(base + "/domino-abandonar", a, "_csrf=" + tokA + "&id=" + id).h("Location"));
+            assertTrue(get(base + loc, b).cuerpo().contains("Ganaste"));
         });
     }
 
