@@ -153,6 +153,32 @@ class HtmlTest {
         assertTrue(h.contains("lang='es'"));
     }
 
+    @Test void barraSuperiorSeOrganizaEnMarcaNavegacionYCuenta() {
+        String h = Html.pagina("Aula", "https://sige.example", S_PROF, "domino", "<p>x</p>");
+        int marca = h.indexOf("class='marca'"), nav = h.indexOf("class='nav-principal'"), cuenta = h.indexOf("class='barra-cuenta'");
+        assertTrue(marca > 0 && marca < nav && nav < cuenta, "orden: marca, navegación, cuenta");
+        String navegacion = h.substring(nav, h.indexOf("</nav>", nav));
+        assertTrue(navegacion.contains("href='/domino'") && navegacion.contains("aria-current='page'"));
+        assertFalse(navegacion.contains("Volver a SIGE") || navegacion.contains("/salir"), "la navegación solo lleva secciones");
+        String bloque = h.substring(cuenta, h.indexOf("</header>"));
+        assertTrue(bloque.contains("class='ajustes'") && bloque.contains("Volver a SIGE") && bloque.contains("action='/salir'"));
+        assertTrue(bloque.contains("class='avatar'") && bloque.contains(">A<") && bloque.contains("<b>Ana</b>") && bloque.contains("<small>profesor</small>"));
+    }
+
+    @Test void sinSesionLaBarraSoloMuestraAjustesYVolver() {
+        String h = Html.pagina("Aula", "https://sige.example", null, "", "<p>x</p>");
+        assertFalse(h.contains("class='nav-principal'") || h.contains("action='/salir'") || h.contains("class='quien'"));
+        assertTrue(h.contains("class='barra-cuenta'") && h.contains("Volver a SIGE"));
+    }
+
+    @Test void inicialesDelNombre() {
+        assertEquals("CP", Html.iniciales("Carlos Peguero"));
+        assertEquals("AB", Html.iniciales("  ana   beatriz  de la cruz "));
+        assertEquals("É", Html.iniciales("élida"));
+        assertEquals("?", Html.iniciales("   "));
+        assertEquals("?", Html.iniciales(null));
+    }
+
     @Test void formatoDeBytes() {
         assertEquals("512 B", Html.bytes(512));
         assertEquals("1.5 KB", Html.bytes(1536));

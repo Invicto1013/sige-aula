@@ -184,3 +184,21 @@ html[data-estacion=verano] .estacion-fx span:nth-child(3n)::before{content:"☀"
 @media print{.estacion-fx{display:none}}
 html[data-vision=contraste] .estacion-fx,html[data-vision=contraste] .auth-brand-no-existe::before{display:none}
 html[data-vision=contraste][data-estacion] body{background-image:none}
+
+/* Barra superior organizada: marca | navegación principal | cuenta (ajustes, volver, usuario, salir) */
+header{justify-content:flex-start;gap:.6rem 1.5rem}
+.nav-principal{flex:1 1 auto;gap:.25rem}
+.nav-principal a{padding:.4rem .85rem;border-radius:.5rem;color:var(--ink);text-decoration:none}
+.nav-principal a:hover{background:var(--bg);color:var(--brand)}
+nav.nav-principal a.actual{background:var(--brand);color:var(--brand-ink);text-decoration:none}
+.barra-cuenta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .85rem;margin-left:auto}
+.barra-cuenta .ajustes{padding-right:.85rem;border-right:1px solid var(--line)}
+.barra-cuenta .volver{color:var(--brand);font-weight:600;text-decoration:none;white-space:nowrap}
+.barra-cuenta .volver:hover{text-decoration:underline;text-underline-offset:4px}
+.quien{display:inline-flex;align-items:center;gap:.55rem;line-height:1.15}
+.avatar{display:inline-flex;align-items:center;justify-content:center;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--brand);color:var(--brand-ink);font-size:.8rem;font-weight:800}
+.quien-texto{display:grid}.quien-texto b{color:var(--ink);font-size:.9rem}.quien-texto small{color:var(--muted);font-size:.75rem;text-transform:capitalize}
+.barra-cuenta .salir button{border:1px solid var(--line);border-radius:.5rem;padding:.45rem .8rem;background:var(--card);color:var(--ink);text-decoration:none}
+.barra-cuenta .salir button:hover{border-color:var(--brand);color:var(--brand)}
+@media (max-width:48rem){.barra-cuenta{order:2;width:100%;margin-left:0;justify-content:space-between}.nav-principal{order:3;flex-basis:100%;display:grid;grid-template-columns:repeat(3,1fr)}.nav-principal a{text-align:center;padding:.45rem .25rem;font-size:.9rem}}
+@media (max-width:30rem){.barra-cuenta .ajustes{border-right:0;padding-right:0}.quien-texto small{display:none}.nav-principal a{white-space:nowrap;font-size:.82rem}}
